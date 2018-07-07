@@ -1,0 +1,21 @@
+version: "2"
+
+volumes:
+    db-data:
+        external: false
+
+services:
+    db:
+        image: mongo
+        env_file: .env
+        volumes:
+            - db-data:/data/db
+
+    app:
+        build: .
+        env_file: .env
+        command: node ./bin/www
+        ports:
+            - "3000:3000"
+        depends_on:
+            - db
